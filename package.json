@@ -1,0 +1,27 @@
+{
+  "name": "regben",
+  "version": "1.0.0",
+  "description": "Single soure of truth for form data - validate a form in one fell swoop?",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bellentuck/regben.git"
+  },
+  "keywords": [
+    "form",
+    "data",
+    "regex",
+    "validation",
+    "validator",
+    "currying"
+  ],
+  "author": "Ben Ellentuck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bellentuck/regben/issues"
+  },
+  "homepage": "https://github.com/bellentuck/regben#readme"
+}
