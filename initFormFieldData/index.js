@@ -1,3 +1,5 @@
+// DEPRECATED
+
 function InitFormFieldData() {
   this.make = (inputValues, warnings) => {
     return {
