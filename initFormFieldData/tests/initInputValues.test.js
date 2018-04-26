@@ -2,7 +2,7 @@ const { expect, assert } = require('chai');
 const { spy } = require('sinon');
 const InputValues = require('../initInputValues');
 
-describe('The InputValues constructor function', () => {
+describe('The InputValues constructor function (DEPRECATED)', () => {
   let input;
   beforeEach(() => {
     input = new InputValues();

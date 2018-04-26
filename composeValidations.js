@@ -27,6 +27,23 @@ I.e., [
   etc.
 ]
 */
+// helper fn
+const getFieldNameForUser = fieldName => {
+  switch (fieldName) {
+    case ('firstName'):
+      return 'First name';
+    case ('lastName'):
+      return 'Last name';
+    case ('fullName'):
+      return 'Full name';
+    case ('countryAbbreviation'):
+      return 'Country abbreviation';
+    default:
+      return fieldName[0].toUpperCase() + fieldName.slice(1);
+  }
+}
+
+
 const composeValidationHandlers = require('./composeValidationHandlers');
 const validations = require('./parsedValidations');
 
@@ -46,14 +63,15 @@ module.exports = fields => {
           for (const [rule, valid] of validationHandlers) {
             if (!valid(input)) errorMessages.push(validations[rule].message);
           }
-          let messageForUser = fieldName + ' ';
+          const fieldNameForUser = getFieldNameForUser(fieldName);
+          let messageForUser = fieldNameForUser + ' ';
           if (errorMessages.length === 0) {
             return;
           } else if (errorMessages.length === 1) {
             messageForUser += errorMessages.join() + '.';
           } else {
             const finalMessage = errorMessages.pop();
-            messageForUser += errorMessages.join(', ') + 'and ' + finalMessage + '.';
+            messageForUser += errorMessages.join(', ') + ', and ' + finalMessage + '.';
           }
           errors[fieldName] = messageForUser;
         }

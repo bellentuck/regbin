@@ -12,11 +12,11 @@ module.exports = {
     message: `must be a single word of letters and/or numbers`
   },
   words: {
-    method: value => /^[a-z\s]*$/i.test(value), // letters and spaces
+    method: value => /\S+/.test(value) && /^[a-z\s]*$/i.test(value), // letters and spaces
     message: `must be comprised of letters only`
   },
   title: {
-    method: value => /^[a-z.-\s]*$/i.test(value),
+    method: value => /\S+/.test(value) && /^[a-z.-\s]*$/i.test(value),
     message: `must be comprised of a word or words`
   },
   nonEmpty: {

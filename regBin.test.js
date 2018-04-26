@@ -4,25 +4,12 @@ const regBin = require('./regBin');
 
 
 const dummyFields = {
-  username: ['a-z', {range: [4, 12]}, 'required'],
+  username: ['required'],
+  firstName: ['required'],
   email: [ ],  //i.e., just defaults
-  phone: [{countryCode: true}]
 };
 
-/* an optimization: (with a Map!)
- const DummyFieldsWithCustomErrorMessages = {
-  username: new Map([
-    ['a-z', 'Username should use alphanumeric (a-z) characters only.'],
-    [{range: [4, 12]}: 'Username should be 4-12 characters long.'],
-    ['required': 'Username cannot be null'],
-])
-  email: [ ],  //i.e., just defaults
-   phone: [{countryCode: true}]
- };
- */
-// alternately, can set custom error messages one at a time.
-
-describe.only('The regBin factory function', () => {
+describe('The regBin factory function', () => {
   // let regBinSpy;
   // beforeEach(() => {
   //   regBinSpy = spy(regBin);
@@ -48,12 +35,45 @@ describe.only('The regBin factory function', () => {
     });
     describe('The output function', () => {
       it('Accepts an object of field names and values');
-      it('Returns an object', () => {
-        errorsObj = validate();
-        expect(errorsObj).to.deep.equal({});
+      it('Returns an object with the correct error messages for given form fields, if values for fields fail their validation test(s)', () => {
+        errorsObj = validate({
+          username: '',
+          firstName: '',
+          email: ''
+        });
+        expect(errorsObj).to.deep.equal({
+          username: `Username must be a single word of letters and/or numbers, and must not be blank.`,
+          firstName: `First name must be comprised of a word or words, and must not be blank.`,
+          email: `Email must be a valid email address.`
+        });
+        expect(Object.keys(errorsObj).length).to.equal(3);
       });
-      it('Returns an object of ')
+      it('Returns an empty object if no fields fail', () => {
+        errorsObj = validate({
+          username: 'barry42',
+          firstName: 'Barr-Elise',
+          email: 'ogb@gmail.com'
+        });
+        expect(Object.keys(errorsObj).length).to.equal(0);
+        expect(errorsObj).to.deep.equal({});
+      })
     });
   });
-})
+});
 
+
+
+
+/// nah
+/* an optimization: (with a Map!)
+ const DummyFieldsWithCustomErrorMessages = {
+  username: new Map([
+    ['a-z', 'Username should use alphanumeric (a-z) characters only.'],
+    [{range: [4, 12]}: 'Username should be 4-12 characters long.'],
+    ['required': 'Username cannot be null'],
+])
+  email: [ ],  //i.e., just defaults
+   phone: [{countryCode: true}]
+ };
+ */
+// alternately, can set custom error messages one at a time.

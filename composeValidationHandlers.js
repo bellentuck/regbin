@@ -11,7 +11,7 @@ const validations = require('./parsedValidations');
 module.exports = (...rules) => {
   //const fieldName = rules[0];
   return rules.reduce((handlers, rule) => {
-    if (validations.hasOwnProperty(rule)) handlers.set(rule, validations[rule]);
+    if (validations.hasOwnProperty(rule)) handlers.set(rule, validations[rule].method);
     return handlers;
   }, new Map());
   //return { [fieldName]: validationConditions };
