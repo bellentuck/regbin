@@ -50,10 +50,15 @@ const composeValidations = require('./composeValidations');
 module.exports = fields => {
   const validations = composeValidations(fields);
   // returns an array of functions
+  // each of which takes in 'values' and 'errors' objects.
+  // the 'errors' object is built upon (currently mutably) over the course of running through the fields to validate...
 
   return values => {
-    const errors = {};
-    return errors;
+    //const errors = {};
+    return validations.reduce((errors, validation) => {
+      validation(values, errors);
+    }, {});
+    //return errors;
   };
   // return {                     // returned object literal w/in function
   //   total: DEFAULT_TOTAL,
