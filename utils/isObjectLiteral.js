@@ -1,3 +1,6 @@
+
+// DEPRECATED
+
 // courtesy Rick of Stack Overflow community
 // https://stackoverflow.com/questions/1173549/how-to-determine-if-an-object-is-an-object-literal-in-javascript?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
