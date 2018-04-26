@@ -28,7 +28,7 @@ I.e., [
 ]
 */
 const composeValidationHandlers = require('./composeValidationHandlers');
-const errorMessageDefaults = require('')
+const validations = require('./parsedValidations');
 
 module.exports = fields => {
   // 'fields' is a hash of entries like: { fieldName: [ condition1, condition2, ... ] }
@@ -44,9 +44,8 @@ module.exports = fields => {
           const input = values[fieldName];
           const errorMessages = [];
           for (const [rule, valid] of validationHandlers) {
-            if (!valid(input)) errorMessages.push(errorMessageDefaults[rule]);
+            if (!valid(input)) errorMessages.push(validations[rule].message);
           }
-
           let messageForUser = fieldName + ' ';
           if (errorMessages.length === 0) {
             return;
