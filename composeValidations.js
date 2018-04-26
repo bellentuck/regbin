@@ -27,28 +27,39 @@ I.e., [
   etc.
 ]
 */
-const composeConditions = require('./composeConditions');
+const composeValidationHandlers = require('./composeValidationHandlers');
+const errorMessageDefaults = require('')
 
-module.exports = (fields, conditions) => {
-  // conditions is a hash of { fieldName: [ condition1, condition2, ... ] }
-  // each condition is a function, taking in current input and validating it.
+module.exports = fields => {
+  // 'fields' is a hash of entries like: { fieldName: [ condition1, condition2, ... ] }
+  // each condition is another string, the name of a condition.
   const validationsArray = [];
   for (const fieldName in fields) {
     if (fields.hasOwnProperty(fieldName)) {
-      const customConditions = fields[fieldName];
-      const fullConditions = composeConditions(fieldName, ...customConditions);
+      const validationHandlers = composeValidationHandlers(fieldName, ...fields[fieldName]);
+
       validationsArray.push(
+
         (values, errors) => {   // both objects
           const input = values[fieldName];
-          if (fullConditions.length === 1) {
-            if (!fullConditions[0](input)) {
-              errorsObj[fieldName] = errorMessageDefaults[fieldName];
-          } else {
-
+          const errorMessages = [];
+          for (const [rule, valid] of validationHandlers) {
+            if (!valid(input)) errorMessages.push(errorMessageDefaults[rule]);
           }
+
+          let messageForUser = fieldName + ' ';
+          if (errorMessages.length === 0) {
+            return;
+          } else if (errorMessages.length === 1) {
+            messageForUser += errorMessages.join() + '.';
+          } else {
+            const finalMessage = errorMessages.pop();
+            messageForUser += errorMessages.join(', ') + 'and ' + finalMessage + '.';
+          }
+          errors[fieldName] = messageForUser;
         }
       );
     }
   }
-  return validationsArray
+  return validationsArray;
 }
