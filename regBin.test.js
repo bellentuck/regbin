@@ -4,9 +4,9 @@ const regBin = require('./regBin');
 
 
 const dummyFields = {
-  username: ['a-z', {range: [4, 12]}, 'required'],
+  username: ['required'],
+  firstName: ['required'],
   email: [ ],  //i.e., just defaults
-  phone: [{countryCode: true}]
 };
 
 /* an optimization: (with a Map!)
@@ -22,7 +22,7 @@ const dummyFields = {
  */
 // alternately, can set custom error messages one at a time.
 
-describe.only('The regBin factory function', () => {
+describe('The regBin factory function', () => {
   // let regBinSpy;
   // beforeEach(() => {
   //   regBinSpy = spy(regBin);
