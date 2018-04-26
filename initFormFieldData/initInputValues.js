@@ -18,7 +18,7 @@ function InputValues() {
   }
 }
 
-module.exports = new InputValues();
+module.exports = InputValues;
 
 
 
