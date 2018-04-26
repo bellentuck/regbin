@@ -4,7 +4,7 @@
   "description": "Got form? Throw data in a regBin",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./**/*.test.js --watch",
+    "test": "mocha ./**/*.test.js ./*.test.js --watch",
     "testOnce": "mocha ./**/*.test.js"
   },
   "repository": {
