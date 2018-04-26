@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const composeValidations = require('./composeValidations');
 const validations = require('./parsedValidations');
 
-describe.only('The `composeValidations` helper function', () => {
+describe('The `composeValidations` helper function', () => {
   describe('Input', () => {
     it('Takes an object with keys representing fieldNames and values (in an array) representing validation conditions to test')
   });
@@ -51,7 +51,7 @@ describe.only('The `composeValidations` helper function', () => {
           username: 'barry42',
           firstName: 'Barr-Elise',
           email: 'ogb@gmail.com'
-        }
+        };
         validationCallbacks.forEach(callback => {
           callback(filledValues, errors);
         });
