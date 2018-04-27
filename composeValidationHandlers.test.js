@@ -16,14 +16,15 @@ describe('The `composeValidationHandlers` helper function', () => {
     it('Produces a map', () => {
       expect(validationHandlers).to.be.a('map');
     });
-    it('Includes an entry for each rule', () => {
-    rules.forEach(rule =>
-        expect(validationHandlers.has(rule)).to.be.true
-      );
-    });
-    it('Associates a given validation rule with its corresponding validation handler function', () => {
+    // deprecated behavior
+    // it('Includes an entry for each rule', () => {
+    // // rules.forEach(rule =>
+    // //     expect(validationHandlers.has(rule)).to.be.true
+    // //   );
+    // });
+    it('Associates the validation method for a given rule with its corresponding message handler', () => {
       rules.forEach(rule => {
-        expect(validationHandlers.get(rule)).to.deep.equal(validations[rule].method)
+        expect(validationHandlers.get(validations[rule].method)).to.deep.equal(validations[rule].message);
       });
     });
     it('For now should be equal in length to the number of rules passed in; i.e., should associate all rules with their corresponding validation methods', () => {

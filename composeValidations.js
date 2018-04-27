@@ -60,8 +60,9 @@ module.exports = fields => {
         (values, errors) => {   // both objects
           const input = values[fieldName];
           const errorMessages = [];
-          for (const [rule, valid] of validationHandlers) {
-            if (!valid(input)) errorMessages.push(validations[rule].message);
+          for (const [method, message] of validationHandlers) {
+            let isValid = method(input);
+            if (!isValid) errorMessages.push(message());
           }
           const fieldNameForUser = getFieldNameForUser(fieldName);
           let messageForUser = fieldNameForUser + ' ';
