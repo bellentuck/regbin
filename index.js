@@ -1,1 +1,4 @@
-module.exports = require('./regBin');
+module.exports = {
+  sync: require('./regBin'),
+  async: require('./regBinAsync')
+}
