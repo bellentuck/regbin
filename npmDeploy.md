@@ -24,3 +24,6 @@
 
 # (4) add "version" tag to github repo
 To associate with the commit corresponding with a particular release version.
+- git tag 1.0.0  (release version)
+- git push --tags
+- Now, you can "draft a new release", fill it with info, associate it with the release version, and boom!
