@@ -17,7 +17,7 @@ const asyncValidate1 = (values /*, dispatch */) => {
   .catch(errorMessageObj => console.log(errorMessageObj));
 }
 
-asyncValidate1({username: 'john'})
+//asyncValidate1({username: 'john'})
 
 
 //
@@ -99,18 +99,18 @@ const asyncValidate = (fieldName, url, errorMessage, valuesObj, errorsObj, data 
 }
 module.exports = asyncValidate;
 
-const valuesObj = { country: 'Romania' };
-const fieldName = 'country';
+// const valuesObj = { country: 'Romania' };
+// const fieldName = 'country';
 //const input = new RegExp(`*<td>${valuesObj[fieldName]}</td>*`, 'i');
 
 //lookahead: q(?=u)
 // lookbehind: (?<=u)q
 //const input = new RegExp(`(?<=>)${valuesObj[fieldName]}(?=<)`, 'i');
-const url = 'https://developers.google.com/public-data/docs/canonical/countries_csv';
-const errorMessage = 'must be an actual country';//two-digit country code';
-const errorsObj = {};
-asyncValidate(fieldName, url, errorMessage, valuesObj, errorsObj)
-.then(() => console.log('ERRORS OBJ:  ', errorsObj))
+// const url = 'https://developers.google.com/public-data/docs/canonical/countries_csv';
+// const errorMessage = 'must be an actual country';//two-digit country code';
+// const errorsObj = {};
+// asyncValidate(fieldName, url, errorMessage, valuesObj, errorsObj)
+// .then(() => console.log('ERRORS OBJ:  ', errorsObj))
 
 
 //fictional characters?
