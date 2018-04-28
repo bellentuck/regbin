@@ -1,4 +1,8 @@
 module.exports = {
-  sync: require('./regBin'),
-  async: require('./regBinAsync')
+  regbin: require('./regBin'),
+  //defaults: require('./defaultsWrapper')
 }
+// a = async (fn, input) => {
+//   ans = await fn(input);
+//   console.log('the answer is... ', ans);
+// }
