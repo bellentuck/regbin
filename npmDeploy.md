@@ -28,20 +28,32 @@ To associate with the commit corresponding with a particular release version.
 - git push --tags
 - Now, you can "draft a new release", fill it with info, associate it with the release version, and boom!
 
-#(5) to update:
+# (5) to update:
 - update package number in `package.json` w/r/t semantic versioning ("semVer") conventions
 - push changes to github
 - push new tag (corresponding to version) to github
 - npm publish!
 --> N.B.: With continuous integration/semantic-release enabled, you don't have to set the version in package.json yourself. Instead, there are conventions for git messages that will signal to semantic-release how to handle versioning.
 
-#(6) to automate releases:
+# (6) to automate releases:
 - `npm install -g semantic-release-cli`
-- `semtantic-release-cli setup`  (basically just go with defaults)
+- "go to https://travis-ci.org and create an account that will ask you to link your github to travis" (https://github.com/semantic-release/cli/issues/196)
+- `semantic-release-cli setup`  (basically just go with defaults)
 --- as part of this process you can set up continuous integration. semantic-release automates this. By default, semantic-release can create a Travis CI "job" for the library.
 - add a version field back into `package.json`. Semantic-release gets rid of this line, but npm will complain during install. Still, you want semantic-release/Travis keeping track of this info, not package.json. So, put `"version": "0.0.0-semantically-released"`.
 - add to `travis.yml` to ensure we only publish once tests are working:
 ```yml
 script:
   - npm run test
+```
+- may have to add "semantic-release pre" and "semantic-release post" to package.json
+
+# (7) conventional commit format (https://conventionalcommits.org/)
+- `npm install -D commitizen cz-conventional-changelog`
+- add to package.json scripts: `"commit": "git-cz"`
+- add to package.json:
+```js
+"czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
+  }
 ```
