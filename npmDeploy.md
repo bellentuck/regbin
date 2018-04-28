@@ -57,3 +57,8 @@ script:
     "path": "node_modules/cz-conventional-changelog"
   }
 ```
+I.e., configure commitizen with czConfig and a path to cz-conventional-changelog.
+That said: the above is actually going to be deprecated as of Commitizen 3.
+For how to update the above procedure: http://commitizen.github.io/cz-cli/.
+- then, `npm run commit`!  (or, in future, git cz)
+- You will be prompted thru (w/ notes for breaking changes and issues to reference)
