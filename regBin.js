@@ -40,6 +40,11 @@ output would be {
 
 */
 
+
+// regBinSync
+// --> regBin.sync({ ... }) ( or: regBin.sync(defaults({ ... })) )
+
+
 const composeValidations = require('./composeValidations');
 
 module.exports = fields => {
@@ -52,7 +57,7 @@ module.exports = fields => {
   };
 }
 
-
+/// sooooo, does everything need to be promisified now?
 
 
 
