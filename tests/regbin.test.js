@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { spy } = require('sinon');
 const regbin = require('../src');
 
-describe.only('The main regularized bindings / regularization bin function', () => {
+describe('The main regularized bindings / regularization bin function', () => {
   const dummyFields = {
     username: ['required'],
     firstName: ['required'],
