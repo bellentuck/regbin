@@ -1,22 +1,38 @@
 const fetch = require('node-fetch');
 
-const asyncValidate = (url, fieldName, errorMessage, valuesObj, errorsObj) => {
-  const input = new RegExp(`.*${valuesObj[fieldName]}.*`, 'i');
+const asyncValidate = (value, url) => {
+  const input = new RegExp(`.*${value}.*`, 'i');
   return fetch(url)
     .then(res => res.text())
+    .then(body => input.test(body))
     .catch(err => console.error(`Error fetching data from ${url}: ${err}`))
-    .then(body => {
-      if (!input.test(body)) throw errorMessage;
-    })
-    .catch(message => {
-      errorsObj[fieldName] = message;
-    });
 }
 
-module.exports = { asyncValidate };
+const urls = {
+  state: 'https://state.1keydata.com/state-abbreviations.php',
+  country: 'https://developers.google.com/public-data/docs/canonical/countries_csv',
+  emoji: 'https://www.emojibase.com/'
+}
+
+module.exports = { asyncValidate, urls };
+
+
+
+
+
+/* TO TEST:
+const url = 'https://developers.google.com/public-data/docs/canonical/countries_csv';
+const value = 'roania'
+asyncValidate(value, url).then(result => console.log('RESULT:', result));
+*/
 
 
 /*
+
+
+DEPRECATED ---
+
+
 To Test:
 
 // country:

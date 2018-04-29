@@ -8,7 +8,7 @@ const number = require('./numberUtils');    // lower-level checks
 const string = require('./stringUtils');
 const char = require('./charUtils');
 const v = require('validator');
-
+const { asyncValidate, urls } = require('./asyncValidationUtils');
 //const custom = validation =>
 
 
@@ -22,17 +22,21 @@ module.exports = Object.assign(number, string, char, {
     value => string.title[0](value),
     string.title[1]
   ],
-  country: [
-    value => string.title[0](value),
-    string.title[1]
+  state: [
+    value => asyncValidate(value, urls.state),
+    () => 'must be a US state'
   ],
-  countryAbbreviation: [
-    value => /^[a-z]{2}$/i.test(value),
-    () => `must be exactly two (2) letters long`
+  country: [
+    value => asyncValidate(value, urls.country),
+    () => 'must be an actual country'
+  ],
+  countryCode: [
+    value => asyncValidate(`>${value}<`, urls.country),
+    () => `must be an actual country code (see: ${urls.country})`
   ],
   zipcode: [
-    value => /^\d{5}$/.test(value),
-    () => `must be exactly five (5) digits long`
+    value => v.isPostalCode(value, 'any'), ///^\d{5}$/.test(value),
+    () => 'must be an actual postal code'
   ],
   // Date info
   year: [
@@ -53,6 +57,14 @@ module.exports = Object.assign(number, string, char, {
     value => v.isEmail(value),
     () => `must be a valid email address`
   ],
+  // Emoji
+  emoji: [
+    value => {
+      if (value[0] !== ':' && value[value.length - 1] !== ':') value = ':' + value + ':';
+      return asyncValidate(value, urls.emoji);
+    },
+    () => `must be shortcode for an actual emoji (see: ${urls.emoji})`
+  ],
   // Name info
   firstName: [
     value => string.title[0](value),
@@ -69,6 +81,11 @@ module.exports = Object.assign(number, string, char, {
   username: [
     value => string.alphaNum[0](value),
     string.alphaNum[1]
+  ],
+  // Phone info
+  phone: [
+    value => /^\d{3}.{0,1}\d{3}.{0,1}\d{4}$/.test(value),
+    () => 'must be an valid 10-digit phone number'
   ],
   // Time
   before: [

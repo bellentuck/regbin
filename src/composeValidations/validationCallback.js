@@ -9,7 +9,7 @@ module.exports = (values, { handlers, idxByField }) => {
     )
   )
   .catch(reason => console.error(reason))
-  .then((validationResults) => {
+  .then((validationResults) => {  // an array of booleans
     const errorMessagesByField = composeErrorMessages(
       fieldNames, idxByField, validationResults, handlers
     );
