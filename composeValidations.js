@@ -102,15 +102,43 @@ const composeValidationHandlers = require('./composeValidationHandlers');
 //   })
 // }
 
+const fillInputArray = (fieldNames, handlerIdxRangeByField, values) => {
+  return fieldNames.reduce((filledInputArray, fieldName) => {
+    const nextInput = values[fieldName];
+    const [ start, end ] = handlerIdxRangeByField[fieldName];
+    for (let i = start; i < end; i++) filledInputArray[i] = nextInput;
+    return filledInputArray;
+  }, []);
+}
+
+const composeErrorMessages = (
+  fieldNames, handlerIdxRangeByField, validationResults, handlers
+) => {
+  return fieldNames.reduce((errors, fieldName) => {
+    const [ start, end ] = handlerIdxRangeByField[fieldName];
+    const messages = getMessagesForFailingTests(
+      start, end, validationResults, handlers
+    );
+    if (messages.length > 0) {
+      const fieldNameForUser = getFieldNameForUser(fieldName);
+      const messageForUser = composeMessageForUser(fieldNameForUser, messages);
+      errors[fieldName] = messageForUser;
+    }
+    return errors;
+  }, {});
+}
+
+
 
 const validationCallback = (values, { handlers, idxByField }) => {
   const fieldNames = Object.keys(idxByField);
-  const input = fieldNames.reduce((byInput, fieldName) => {
-    const nextInput = values[fieldName];
-    const [ start, end ] = idxByField[fieldName];
-    for (let i = start; i < end; i++) byInput[i] = nextInput;
-    return byInput;
-  }, []);
+  const input = fillInputArray(fieldNames, idxByField, values);
+  // const input = fieldNames.reduce((byInput, fieldName) => {
+  //   const nextInput = values[fieldName];
+  //   const [ start, end ] = idxByField[fieldName];
+  //   for (let i = start; i < end; i++) byInput[i] = nextInput;
+  //   return byInput;
+  // }, []);
 
   return Promise.all(
     handlers.map(([method, _], handlerIdx) =>
@@ -119,21 +147,25 @@ const validationCallback = (values, { handlers, idxByField }) => {
   )
   .catch(reason => console.error(reason))
   .then((validationResults) => {
-    const errorsObj = fieldNames.reduce((errors, fieldName) => {
-      const [ start, end ] = idxByField[fieldName];
-      const messages = getMessagesForFailingTests(
-        start,
-        end,
-        validationResults,
-        handlers
-      );
-      if (messages.length > 0) {
-        const fieldNameForUser = getFieldNameForUser(fieldName);
-        const messageForUser = composeMessageForUser(fieldNameForUser, messages);
-        errors[fieldName] = messageForUser;
-      }
-    }, {});
-    if (Object.keys(errorsObj).length > 0) throw errorsObj;
+    const errorMessagesByField = composeErrorMessages(
+      fieldNames, idxByField, validationResults, handlers
+    );
+    // const errorMessagesByField = fieldNames.reduce((errors, fieldName) => {
+    //   const [ start, end ] = idxByField[fieldName];
+    //   const messages = getMessagesForFailingTests(
+    //     start,
+    //     end,
+    //     validationResults,
+    //     handlers
+    //   );
+    //   if (messages.length > 0) {
+    //     const fieldNameForUser = getFieldNameForUser(fieldName);
+    //     const messageForUser = composeMessageForUser(fieldNameForUser, messages);
+    //     errors[fieldName] = messageForUser;
+    //   }
+    // }, {});
+
+    if (Object.keys(errorMessagesByField).length > 0) throw errorMessagesByField;
   });
 }
 

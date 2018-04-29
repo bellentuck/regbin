@@ -64,15 +64,15 @@ module.exports = Object.assign(number, string, char, {
   ],
   fullName: [
     value => string.title.method(value),
-    message: string.title.message
+    () => string.title.message
   ],
   username: [
     value => string.alphaNum.method(value),
-    message: string.alphaNum.message
+    () => string.alphaNum.message
   ],
   // Time
   before: [
-    (value, glb) => v.isBefore(value, lub),  //lub = least upper bound
+    (value, lub) => v.isBefore(value, lub),  //lub = least upper bound
     (lub) => `must occur before ${lub}`
   ],
   after: [
@@ -85,8 +85,8 @@ module.exports = Object.assign(number, string, char, {
     () => `must be a decimal amount`
   ],
   '%': [   // e.g.,  {'%': 2}
-    (value, number) => v.isDivisibleBy(value, number),
-    (number) => `must be divisible by ${number}`
+    (value, dividend) => v.isDivisibleBy(value, dividend),
+    (dividend) => `must be divisible by ${dividend}`
   ],
 
 
