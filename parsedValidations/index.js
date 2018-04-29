@@ -19,12 +19,12 @@ module.exports = Object.assign(number, string, char, {
     () => `must include a number and a name`
   ],
   city: [
-    value => string.title.method(value),
-    string.title.message
+    value => string.title[0](value),
+    string.title[1]
   ],
   country: [
-    value => string.title.method(value),
-    string.title.message
+    value => string.title[0](value),
+    string.title[1]
   ],
   countryAbbreviation: [
     value => /^[a-z]{2}$/i.test(value),
@@ -55,20 +55,20 @@ module.exports = Object.assign(number, string, char, {
   ],
   // Name info
   firstName: [
-    value => string.title.method(value),
-    () => string.title.message
+    value => string.title[0](value),
+    string.title[1]
   ],
   lastName: [
-    value => string.title.method(value),
-    () => string.title.message
+    value => string.title[0](value),
+    string.title[1]
   ],
   fullName: [
-    value => string.title.method(value),
-    () => string.title.message
+    value => string.title[0](value),
+    string.title[1]
   ],
   username: [
-    value => string.alphaNum.method(value),
-    () => string.alphaNum.message
+    value => string.alphaNum[0](value),
+    string.alphaNum[1]
   ],
   // Time
   before: [

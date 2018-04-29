@@ -35,10 +35,13 @@ const getFieldNameForUser = fieldName => {
 const composeMessageForUser = (fieldNameForUser, messages) => {
   let messageForUser = fieldNameForUser + ' ';
   if (messages.length === 1) {
-    messageForUser += messages.join() + '.';
+    messageForUser += messages[0]() + '.';
   } else {
     const finalMessage = messages.pop();
-    messageForUser += messages.join(', ') + ', and ' + finalMessage + '.';
+    messages.forEach(message => {
+      messageForUser += message() + ', ';
+    });
+    messageForUser += 'and ' + finalMessage() + '.';
   }
   return messageForUser;
 }

@@ -13,6 +13,8 @@ module.exports = (values, { handlers, idxByField }) => {
     const errorMessagesByField = composeErrorMessages(
       fieldNames, idxByField, validationResults, handlers
     );
+    // perhaps only wish to enable this behavior for redux forms? or ok by default?
     if (Object.keys(errorMessagesByField).length > 0) throw errorMessagesByField;
+    else return {};
   });
 }

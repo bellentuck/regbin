@@ -4,6 +4,8 @@ const compose = require('../src/composeValidations/composeValidationHandlers');
 describe('The composeValidationHandlers function', () => {
   const rules = ['required', 'a-z'];
   const handlers = compose(...rules);
+  // console.log('HANDLERS', handlers[0][0].toString())
+  // console.log('HANDLERS', handlers[0][1].toString())
   it('Should return an array of arrays, each of which has two elements, both of which are functions', () => {
     expect(handlers.length).to.equal(rules.length);
     handlers.forEach(handler => {

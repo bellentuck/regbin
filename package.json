@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "commit": "git-cz",
-    "test": "mocha ./**/*.test.js ./*.test.js ./tests/*.test.js --watch",
+    "test": "mocha ./tests/*.test.js --watch",
     "testOnce": "mocha ./**/*.test.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "travis-deploy-once": "travis-deploy-once"

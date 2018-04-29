@@ -17,5 +17,6 @@ module.exports = (fields, useDefaults) => {
     idxByField: {}, // e.g.: {name: [0,2], age: [2,3], occupation: [3,5], ...}
     handlers: []
   });
+  // console.log('VALIDATION HANDLERS', validationHandlers)
   return values => validationCallback(values, validationHandlers);
 }
