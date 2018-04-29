@@ -1,43 +1,19 @@
 const composeValidations = require('./composeValidations');
 
-const defaults = fields => {
-  fields.defaultRegularizationBindings = true;
-  return fields;
-}
-
-const reduxFormify = fields => {
-  fields.generateReduxFormWrapper = true;
-  return fields;
-}
-
-const regbin = fields => {
-  let useDefaults, returnObject;
-
-  if (fields.hasOwnProperty('defaultRegularizationBindings')) {
-    delete fields.defaultRegularizationBindings;
-    useDefaults = true;
+function regbin(userFieldsOrConfigs, regbinConfigs = null) {
+  if (typeof userFieldsOrConfigs === 'string') {  // I.e., we have user-provided configs.
+    return fields => regbin(fields, Array.prototype.slice.call(arguments));
   } else {
-    useDefaults = false;
+    // If not configs, it's assumed the user has provided an object of fields and requested validations to run on those fields.
+    const fields = userFieldsOrConfigs;
+    const useDefaults = regbinConfigs && regbinConfigs.includes('defaults');
+    const validationsFn = composeValidations(fields, useDefaults);
+    const returnObject = regbinConfigs && regbinConfigs.includes('redux-form')
+      ? [{ asyncValidate: validationsFn },
+         { asyncBlurFields: Object.keys(fields) }]
+      : validationsFn;
+    return returnObject;
   }
-
-  if (fields.hasOwnProperty('generateReduxFormWrapper')) {
-    delete fields.generateReduxFormWrapper;
-    returnObject = [{ asyncBlurFields: Object.keys(fields) }];
-  }
-
-  const validationsFn = composeValidations(fields, useDefaults);
-
-  if (Array.isArray(returnObject)) {
-    returnObject.unshift({ asyncValidate: validationsFn });
-  } else {
-    returnObject = validationsFn;
-  }
-
-  return returnObject;
 }
 
-module.exports = {
-  regbin,
-  defaults,
-  reduxFormify
-}
+module.exports = regbin;

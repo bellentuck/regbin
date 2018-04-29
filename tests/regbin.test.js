@@ -1,15 +1,16 @@
 const { expect } = require('chai');
 const { spy } = require('sinon');
-const { regbin, defaults } = require('../src');
+const regbin = require('../src');
 
-describe('The main regularized bindings / regularization bin function', () => {
+describe.only('The main regularized bindings / regularization bin function', () => {
   const dummyFields = {
     username: ['required'],
     firstName: ['required'],
     email: ['required'],  //i.e., just defaults
   };
-  describe('Output', () => {
-    let validate, errorObj;
+
+  describe('Basic output', () => {
+    let validate;
     beforeEach(() => {
       validate = regbin(dummyFields);
     });
@@ -52,22 +53,63 @@ describe('The main regularized bindings / regularization bin function', () => {
       const fields = {
         username: ['required', {range: [4, 12]}],
         firstName: ['required'],
-        email: [ ],  //i.e., just defaults
       };
       const data = {
         username: '',
         firstName: '',
-        email: ''
       }
-      regbin(defaults(fields))(data)
+      regbin(fields)(data)
       .catch(errorsObj => {
-        expect(Object.keys(errorsObj).length).to.equal(3);
+        expect(Object.keys(errorsObj).length).to.equal(2);
         expect(errorsObj).to.deep.equal({
-          username: 'Username must be a single word of letters and/or numbers, must not be blank, and must be between 4 and 12 characters long.',
-          firstName: 'First name must be comprised of a word or words, and must not be blank.',
-          email: 'Email must be a valid email address.'
+          username: 'Username must not be blank, and must be between 4 and 12 characters long.',
+          firstName: 'First name must not be blank.'
         });
-      })
+      });
     });
   });
+  describe('Handling optional configs', () => {
+    describe('Using defaults', () => {
+      it('Allows for default validation behavior in addition to user-specified validations for a given field, if the "defaults" string is passed in on an initial call to `regbin`', () => {
+        const fields = {
+          username: ['required', {range: [4, 12]}],
+          firstName: ['required'],
+          email: [ ],  //i.e., just defaults
+        };
+        const data = {
+          username: '',
+          firstName: '',
+          email: ''
+        }
+        regbin('defaults')(fields)(data)
+        .catch(errorsObj => {
+          expect(Object.keys(errorsObj).length).to.equal(3);
+          expect(errorsObj).to.deep.equal({
+            username: 'Username must be a single word of letters and/or numbers, must not be blank, and must be between 4 and 12 characters long.',
+            firstName: 'First name must be comprised of a word or words, and must not be blank.',
+            email: 'Email must be a valid email address.'
+          });
+        });
+      });
+    });
+    describe('Specifying "redux-form" shape for regbin', () => {
+      it('Allows for redux-form-friendly regbin shape, i.e. an array that can be spread out in a connect-call to redux-form, if the "redux-form" string is passed in on an initial call to `regbin`', () => {
+        const fields = {
+          username: ['required', {range: [4, 12]}],
+          firstName: ['required'],
+          email: [ ],  //i.e., just defaults
+        };
+        const reduxFormShape = regbin('redux-form')(fields);
+        const vanillaRegbin = regbin(fields);
+        expect(reduxFormShape).to.be.an('array');
+        expect(reduxFormShape).to.have.lengthOf(2);
+        expect(reduxFormShape[0]).to.have.any.keys('asyncValidate');
+        expect(reduxFormShape[0].asyncValidate.toString()).to.equal(vanillaRegbin.toString());
+        expect(reduxFormShape[1]).to.have.any.keys('asyncBlurFields');
+        expect(reduxFormShape[1].asyncBlurFields).to.deep.equal(Object.keys(fields));
+      });
+    });
+  });
+
+  //describe('Handling custom validators that are functions, not strings', () => {
 });
