@@ -111,5 +111,27 @@ describe.only('The main regularized bindings / regularization bin function', () 
     });
   });
 
-  //describe('Handling custom validators that are functions, not strings', () => {
+  describe('Handling custom validators', () => {
+    it('Should accept custom validators in the form [ method, message ] as part of a given field\'s array of requested validators', () => {
+      const fields = {
+        username: ['required', {range: [4, 12]}],
+        occupation: [[
+          value => /.*(walrus|carpenter).*/i.test(value),
+          'must include a walrus or a carpenter'
+        ]],
+      };
+      const data = {
+        username: '',
+        occupation: '',
+      }
+      regbin(fields)(data)
+      .catch(errorsObj => {
+        expect(Object.keys(errorsObj).length).to.equal(2);
+        expect(errorsObj).to.deep.equal({
+          username: 'Username must not be blank, and must be between 4 and 12 characters long.',
+          occupation: 'Occupation must include a walrus or a carpenter.',
+        });
+      });
+    });
+  });
 });

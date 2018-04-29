@@ -88,19 +88,14 @@ module.exports = Object.assign(number, string, char, {
     (value, dividend) => v.isDivisibleBy(value, dividend),
     (dividend) => `must be divisible by ${dividend}`
   ],
-
-
-
-  // module.exports = {
-  //   range: [  // e.g.,  {range: [4,12]}
-  //     (value, [min, max]) => value.length >= min && value.length <= max),
-  //     ([min, max]) => `must be between ${min} and ${max} characters long`
-  //   ],
-  // }
-
   // Money
-  '$': [
+  $: [
     (value, options = null) => v.isCurrency(value, options),
     () => `must be a valid currency amount`
+  ],
+  // Work
+  occupation: [
+    value => string.title[0](value),
+    string.title[1]
   ]
 });
