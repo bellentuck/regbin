@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const { spy } = require('sinon');
 const regbin = require('../src');
 
-describe.only('The main regularized bindings / regularization bin function', () => {
+describe('The main regularized bindings / regularization bin function', () => {
   const dummyFields = {
     username: ['required'],
     firstName: ['required'],
@@ -158,4 +158,31 @@ describe.only('The main regularized bindings / regularization bin function', () 
       });
     });
   });
+
+  describe.only('Handling async validators', () => {
+    it('Should handle explicitly asynchronous validators the same way it would synchronous ones', () => {
+      const fields = {
+        username: [['required', 'should, like, be provided'], {range: [4, 12]}],
+        occupation: [[
+          value => /.*(walrus|carpenter).*/i.test(value),
+          () => 'must include a walrus or a carpenter'
+        ]],
+        emoji: [ 'emoji' ]
+      };
+      const data = {
+        username: '',
+        occupation: '',
+        emoji: ''
+      }
+      regbin(fields)(data)
+      .catch(errorsObj => {
+        expect(Object.keys(errorsObj).length).to.equal(3);
+        expect(errorsObj).to.deep.equal({
+          username: 'Username should, like, be provided, and must be between 4 and 12 characters long.',
+          occupation: 'Occupation must include a walrus or a carpenter.',
+          emoji: 'Emoji must be shortcode for an actual emoji (see: https://www.emojibase.com/).'
+        });
+      });
+    });
+  })
 });
