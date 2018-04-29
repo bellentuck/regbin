@@ -1,4 +1,7 @@
+const { regbin, defaults, reduxFormify } = require('./regBin');
+
 module.exports = {
-  sync: require('./regBin'),
-  async: require('./regBinAsync')
+  regbin,
+  defaults,
+  reduxFormify
 }

@@ -41,20 +41,65 @@ output would be {
 */
 
 
-// regBinSync
-// --> regBin.sync({ ... }) ( or: regBin.sync(defaults({ ... })) )
-
-
 const composeValidations = require('./composeValidations');
 
-module.exports = fields => {
-  const validations = composeValidations(fields);
-  return values => {
-    return validations.reduce((errors, validation) => {
-      validation(values, errors);
-      return errors;
-    }, {});
-  };
+const defaults = fields => {
+  fields.defaultRegularizationBindings = true;
+  return fields;
+}
+
+const reduxFormify = fields => {
+  fields.generateReduxFormWrapper = true;
+  return fields;
+}
+
+const regbin = fields => {
+  let useDefaults, returnObject;
+  if (fields.hasOwnProperty('defaultRegularizationBindings')) {
+    delete fields.defaultRegularizationBindings;
+    useDefaults = true;
+  } else {
+    useDefaults = false;
+  }
+  if (fields.hasOwnProperty('generateReduxFormWrapper')) {
+    delete fields.generateReduxFormWrapper;
+    returnObject = [{ asyncBlurFields: Object.keys(fields) }];
+  }
+  const validationsFn = composeValidations(fields, useDefaults);
+  if (Array.isArray(returnObject)) {
+    returnObject.unshift({ asyncValidate: validationsFn });
+  } else {
+    returnObject = validationsFn;
+  }
+  return returnObject;
+}
+  // this way can spread out as follows in redux-form:
+  /*
+  export default reduxForm({
+  form: 'asyncValidation', // a unique identifier for this form
+  ...regbin
+})(AsyncValidationForm)
+  */
+
+  // asyncValidate,
+  // asyncBlurFields: ['username']
+
+  // return values => {
+  //   return validations.reduce((errors, validation) => {
+  //     validation(values, errors);
+  //     return errors;
+  //   }, {});
+  // };
+
+
+// validate,
+// asyncValidate,
+// asyncBlurFields: ['username']
+
+module.exports = {
+  regbin,
+  defaults,
+  reduxFormify
 }
 
 /// sooooo, does everything need to be promisified now?

@@ -17,3 +17,4 @@ Optimization for 'country' and 'countryAbbreviation':
 query online dataset (via axios?):
 https://developers.google.com/public-data/docs/canonical/countries_csv
 */
+//a = value => Promise.resolve(/^\d{5}$/.test(value))

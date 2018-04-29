@@ -5,10 +5,10 @@
   Output: Map of entries like { rule1 => handler1, rule2 => handler2, ... }
   where each "handler" is a validation handler mapping of validation function to message-generating functions for that rule.
 */
-const validations = require('./parsedValidations');
+const validations = require('../../parsedValidations');
 
 module.exports = (...rules) => {
-  return rules.map((handlers, rule) => {
+  return rules.map(rule => {
     if (typeof rule === 'string' && validations.hasOwnProperty(rule)) {
       return validations[rule];
     } else if (Array.isArray(rule)) { // custom validations
@@ -23,7 +23,7 @@ module.exports = (...rules) => {
           () => message(ruleSpecs)
         ];
       } else {
-        throw new Error(`Unsupported validation type '${ruleName}'. Please supply a custom validation function, in the form [ customMethod, customMessage ], instead.`);
+        throw new Error(`Unsupported validation type '${ruleName}'. This can come from not using defaults yet supplying an empty array for a field. Please supply a custom validation function, in the form [ customMethod, customMessage ], instead, or consider using the defaults() wrapper.`);
       }
     }
   });
