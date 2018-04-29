@@ -1,8 +1,7 @@
+const { regbin, defaults, reduxFormify } = require('./regBin');
+
 module.exports = {
-  regbin: require('./regBin'),
-  //defaults: require('./defaultsWrapper')
+  regbin,
+  defaults,
+  reduxFormify
 }
-// a = async (fn, input) => {
-//   ans = await fn(input);
-//   console.log('the answer is... ', ans);
-// }
