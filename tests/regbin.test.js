@@ -18,7 +18,7 @@ describe('Output', () => {
   });
   describe('The output function', () => {
     it('Accepts an object of field names and values');
-    it.only('Returns an object with the correct error messages for given form fields, if values for fields fail their validation test(s)', () => {
+    it('Returns an object with the correct error messages for given form fields, if values for fields fail their validation test(s)', () => {
       validate({
         username: '',
         firstName: '',
