@@ -111,7 +111,7 @@ describe('The main regularized bindings / regularization bin function', () => {
     });
   });
 
-  describe.only('Handling custom validators', () => {
+  describe('Handling custom validators', () => {
     it('Should accept custom validators in the form [ method, message ] as part of a given field\'s array of requested validators', () => {
       const fields = {
         username: ['required', {range: [4, 12]}],
@@ -126,7 +126,6 @@ describe('The main regularized bindings / regularization bin function', () => {
       }
       regbin(fields)(data)
       .catch(errorsObj => {
-        console.log('errors obj', errorsObj)
         expect(Object.keys(errorsObj).length).to.equal(2);
         expect(errorsObj).to.deep.equal({
           username: 'Username must not be blank, and must be between 4 and 12 characters long.',
