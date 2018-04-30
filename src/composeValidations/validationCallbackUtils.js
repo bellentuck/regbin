@@ -8,11 +8,14 @@ const fillInputArray = (fieldNames, handlerIdxRangeByField, values) => {
   }, []);
 }
 
-const getMessagesForFailingTests = (start, end, validationResults, handlers) => {
+const getMessagesForFailingTests = (start, end, validationResults, handlers, inputIdxToHandlerIdx) => {
   const messages = [];
   for (let i = start; i < end; i++) {
-    let isValid = validationResults[i];
-    if (!isValid) messages.push(handlers[i][1]);
+    let inputHandlerIdx = inputIdxToHandlerIdx.get(i);
+    if (typeof inputHandlerIdx !== 'undefined') {
+      let isValid = validationResults[inputIdxToHandlerIdx.get(i)];
+      if (!isValid) messages.push(handlers[i][1]);
+    }
   }
   return messages;
 }
@@ -46,11 +49,11 @@ const composeMessageForUser = (fieldNameForUser, messages) => {
   return messageForUser;
 }
 
-const composeErrorMessages = (fieldNames, handlerIdxRangeByField, validationResults, handlers) => {
+const composeErrorMessages = (fieldNames, handlerIdxRangeByField, validationResults, handlers, inputIdxToHandlerIdx) => {
   return fieldNames.reduce((errors, fieldName) => {
     const [ start, end ] = handlerIdxRangeByField[fieldName];
     const messages = getMessagesForFailingTests(
-      start, end, validationResults, handlers
+      start, end, validationResults, handlers, inputIdxToHandlerIdx
     );
     if (messages.length > 0) {
       const fieldNameForUser = getFieldNameForUser(fieldName);
