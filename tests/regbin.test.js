@@ -48,6 +48,22 @@ describe('The main regularized bindings / regularization bin function', () => {
     });
   });
 
+  describe.only('Using defaults', () => {
+    let validations;
+    beforeEach(() => {
+      validations = regbin('defaults');
+    });
+    it('Should accept fields with empty arrays of validations, if defaults are on', () => {
+      expect(validations({
+        beachName: ['name', 'required'],
+        city: [],
+        state: [],
+        plusOnes: [{range: [0,2]}],
+        'chaperone(s)': [[ value => /.*(walrus|carpenter).*/i.test(value), 'must include a walrus or a carpenter']]
+      })).to.be.a('function');
+    });
+  });
+
   describe('Handling rules that are objects, not strings', () => {
     it('Should be able to take in rules like {range: [4, 12]} and produce same shape of output', () => {
       const fields = {

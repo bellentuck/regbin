@@ -1,10 +1,11 @@
 const composeValidationHandlers = require('./composeValidationHandlers');
 const validationCallback = require('./validationCallback')
+const defaultFields = require('../../parsedValidations');
 
 // 'fields' is a hash of entries like: { fieldName: [ condition1, condition2, ... ] }, where each condition is another string, the name of a condition.
 module.exports = (fields, useDefaults) => {
   const validationHandlers = Object.keys(fields).reduce((info, fieldName) => {
-    const nextHandlers = useDefaults
+    const nextHandlers = useDefaults && defaultFields.hasOwnProperty(fieldName)
       ? composeValidationHandlers(fieldName, ...fields[fieldName])
       : composeValidationHandlers(...fields[fieldName]);
     info.idxByField[fieldName] = [
@@ -17,6 +18,5 @@ module.exports = (fields, useDefaults) => {
     idxByField: {}, // e.g.: {name: [0,2], age: [2,3], occupation: [3,5], ...}
     handlers: []
   });
-  // console.log('VALIDATION HANDLERS', validationHandlers)
   return values => validationCallback(values, validationHandlers);
 }

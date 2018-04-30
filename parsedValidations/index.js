@@ -20,7 +20,7 @@ module.exports = Object.assign(number, string, char, {
   ],
   city: [
     value => string.title[0](value),
-    `must be an actual city, comprised of a word or words`
+    () => `must be an actual city, comprised of a word or words`
   ],
   state: [
     value => asyncValidate(value, urls.state),

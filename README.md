@@ -1,5 +1,5 @@
 # regbin
-Form validation function generator: regularized bindings for form fields against which to test data. Built-in support for 28 default fields (so far!), async and custom validators, and [Redux-Form](https://www.npmjs.com/package/redux-form).
+Form validation function generator: regularized bindings for form fields against which to test data. Built-in support for 32 default fields (so far!), async and custom validators, and [Redux-Form](https://www.npmjs.com/package/redux-form).
 
 ## Installation
 1. `npm install regbin`
@@ -183,17 +183,22 @@ Validator Name | Failure Assertion
 #### Math:
 Validator Name | Failure Assertion
 --- | ---
-`.` | `must be a decimal amount`
+`.` | must be a decimal amount
+`{ '%': n }` | must be divisible by `n`
+`{ range: [min, max] }` | must be between `min` and `max` characters long
 #### Money:
 Validator Name | Failure Assertion
 --- | ---
 `$` | must be a valid currency amount
+#### Time:
+Validator Name | Failure Assertion
+--- | ---
+`{ before: [value, lub] }` | must occur before `lub`
+`{ after: [value, glb] }` | must occur after `glb`
 #### Work:
 Validator Name | Failure Assertion
 --- | ---
 `occupation` | must be comprised of a word or words
-
-Coming soon: more Math (range, divisibility), Time (before and after).
 
 #### Additionally, the following "lower-level" validations are also supported:
 Validator Name | Failure Assertion (to be composed, along with other failing assertions for the same field, into an intelligible message)
@@ -210,6 +215,14 @@ Validator Name | Failure Assertion (to be composed, along with other failing ass
 
 ### Combining validator messages
 regbin "intelligently" combines messages for the same field, so that if, for instance, the email field were required, the corresponding error message would read, "Email must be a valid address, and must not be blank."
+
+### Object validators
+Yes, you can pass in an object as a validator! E.g.,
+```js
+regbin('defaults')({
+  username: [ 'required', { range: [4, 12] }]
+});
+```
 
 ### Custom validators
 You can, of course, supply your own validators instead of or in addition to regbin defaults.

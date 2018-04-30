@@ -16,3 +16,16 @@ describe('The composeValidationHandlers function', () => {
     });
   });
 });
+
+
+// describe('Using defaults', () => {
+//   it('Should accept fields with empty arrays of validations, if defaults are on', () => {
+//     expect(regbin('defaults')({
+//       beachName: ['name', 'required'],
+//       city: [],
+//       state: [],
+//       plusOnes: [{range: [0,2]}],
+//       'chaperone(s)': [[ value => /.*(walrus|carpenter).*/i.test(value), 'must include a walrus or a carpenter']]
+//     })).not.to.throw();
+//   });
+// });
