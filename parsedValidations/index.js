@@ -78,6 +78,10 @@ module.exports = Object.assign(number, string, char, {
     value => string.title[0](value),
     string.title[1]
   ],
+  name: [
+    value => string.title[0](value),
+    string.title[1]
+  ],
   username: [
     value => string.alphaNum[0](value),
     string.alphaNum[1]

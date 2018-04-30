@@ -159,7 +159,7 @@ describe('The main regularized bindings / regularization bin function', () => {
     });
   });
 
-  describe.only('Handling async validators', () => {
+  describe('Handling async validators', () => {
     it('Should handle explicitly asynchronous validators the same way it would synchronous ones', () => {
       const fields = {
         username: [['required', 'should, like, be provided'], {range: [4, 12]}],
@@ -184,5 +184,22 @@ describe('The main regularized bindings / regularization bin function', () => {
         });
       });
     });
-  })
+  });
+
+  describe('Handling only 1 field changing at a time', () => {
+    it('Creates an error only if the currently-changing field fails, i.e. not for all fields at that moment in time', () => {
+      regbin('defaults')({
+        firstName: ['required'],
+        username: ['required', {range: [4, 12]}],
+        email: [ ],
+      })({ username: '' })
+      .then(result => console.log('ERRORS OBJ', result))
+      .catch(errorsObj => {
+        expect(Object.keys(errorsObj).length).to.equal(1);
+        expect(errorsObj).to.deep.equal({
+          username: 'Username must be a single word of letters and/or numbers, must not be blank, and must be between 4 and 12 characters long.'
+        });
+      });
+    });
+  });
 });
