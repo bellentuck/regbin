@@ -91,24 +91,24 @@ module.exports = Object.assign(number, string, char, {
     value => /^\d{3}.{0,1}\d{3}.{0,1}\d{4}$/.test(value),
     () => 'must be a valid 10-digit phone number'
   ],
-  // // Time // coming soon!
-  // before: [
-  //   (value, lub) => v.isBefore(value, lub),  //lub = least upper bound
-  //   (lub) => `must occur before ${lub}`
-  // ],
-  // after: [
-  //   (value, glb) => v.isAfter(value, glb),  //glb = greatest lower bound
-  //   (glb) => `must occur after ${glb}`
-  // ],
+  // Time
+  before: [
+    (value, lub) => v.isBefore(value, lub),  //lub = least upper bound
+    (lub) => `must occur before ${lub}`
+  ],
+  after: [
+    (value, glb) => v.isAfter(value, glb),  //glb = greatest lower bound
+    (glb) => `must occur after ${glb}`
+  ],
   // Math
   '.': [
     (value, options = null) => v.isDecimal(value, options),
     () => `must be a decimal amount`
   ],
-  // '%': [   // e.g.,  {'%': 2}
-  //   (value, dividend) => v.isDivisibleBy(value, dividend),
-  //   (dividend) => `must be divisible by ${dividend}`
-  // ],
+  '%': [   // e.g.,  {'%': 2}
+    (value, dividend) => v.isDivisibleBy(value, dividend),
+    (dividend) => `must be divisible by ${dividend}`
+  ],
   // Money
   $: [
     (value, options = null) => v.isCurrency(value, options),
