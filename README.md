@@ -146,7 +146,7 @@ export default reduxForm({
 ## Functionality
 ### Currently supported validators
 While a regbin is essentially a validations wrapper, the regbin library supports the following forms of validations out of the box:
-1. Address:
+#### Address:
 Validator Name | Failure Assertion (to be composed, along with other failing assertions for the same field, into an intelligible message)
 --- | ---
 `street` (street name) | address must include a number and a name
@@ -155,47 +155,47 @@ Validator Name | Failure Assertion (to be composed, along with other failing ass
 `country` | must be an actual country
 `countryCode` | must be an actual country code (see: https://developers.google.com/public-data/docs/canonical/countries_csv)
 `zipcode` | must be an actual postal code
-2. Date:
+#### Date:
 Validator Name | Failure Assertion
 --- | ---
 `year` | must be exactly four (4) digits long
 `month` | must be between 1 and 12
 `day` | must be between 1 and 31 (except if it's February, April, June, September, or November!)
-3. Email:
+#### Email:
 Validator Name | Failure Assertion
 --- | ---
 `email` | must be a valid email address
-4. Emoji:
+#### Emoji:
 Validator Name | Failure Assertion
 --- | ---
 `emoji` | must be shortcode for an actual emoji (see: https://www.emojibase.com/)
-5. Name:
+#### Name:
 Validator Name | Failure Assertion
 --- | ---
 `firstName` | must be comprised of a word or words
 `lastName` | must be comprised of a word or words
 `fullName` or `name` | must be comprised of a word or words
 `username` | must be a single word of letters and/or numbers
-6. Phone:
+#### Phone:
 Validator Name | Failure Assertion
 --- | ---
 `phone` | must be a valid 10-digit phone number
-8. Math:
+#### Math:
 Validator Name | Failure Assertion
 --- | ---
 `.` | `must be a decimal amount`
-9. Money:
+#### Money:
 Validator Name | Failure Assertion
 --- | ---
 `$` | must be a valid currency amount
-10. Work:
+#### Work:
 Validator Name | Failure Assertion
 --- | ---
 `occupation` | must be comprised of a word or words
 
 Coming soon: more Math (range, divisibility), Time (before and after).
 
-Additionally, the following "lower-level" validations are also supported:
+#### Additionally, the following "lower-level" validations are also supported:
 Validator Name | Failure Assertion (to be composed, along with other failing assertions for the same field, into an intelligible message)
 --- | ---
 `ascii` | must be made up of ASCII characters only
