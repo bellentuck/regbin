@@ -1,6 +1,6 @@
 {
   "name": "regbin",
-  "version": "0.0.0-semantically-released",
+  "version": "2.0.0",
   "description": "Got form? Throw data in a regBin",
   "main": "index.js",
   "scripts": {
