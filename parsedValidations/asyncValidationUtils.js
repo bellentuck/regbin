@@ -9,7 +9,6 @@ const asyncValidate = (value, url) => {
 }
 
 const urls = {
-  state: 'https://state.1keydata.com/state-abbreviations.php',
   country: 'https://developers.google.com/public-data/docs/canonical/countries_csv',
   emoji: 'https://www.emojibase.com/'
 }

@@ -286,7 +286,7 @@ That said, the plan is to make explicitly synchronous-only validations an additi
 ### Why is regbin async by default?
 Sometimes in order to answer one question you'll ask something else. Main use case is database queries. "Is this username taken?" An app generally has to ping a database in order to answer the prior question of whether or not the username exists in the database.
 
-You can query basically any API you please, or even scrape the web, to get an answer you're looking for. All you need to supply to regbin is a function that will take some data (among whatever other params you please) and eventually return an answer about whether or not that data is valid. As a demo of this capability/proof of concept for the possibly more-relevant-if-less-fanciful database-pinging case, regbin supports `state`, `country`, `countryCode`, and `emoji` async validators currently powered by web scraping.
+You can query basically any API you please, or even scrape the web, to get an answer you're looking for. All you need to supply to regbin is a function that will take some data (among whatever other params you please) and eventually return an answer about whether or not that data is valid. As a demo of this capability/proof of concept for the possibly more-relevant-if-less-fanciful database-pinging case, regbin supports `country`, `countryCode`, and `emoji` async validators currently powered by web scraping.
 ### What's that style called when you just get a single function from a library and keep calling it with different inputs?
 [Currying](https://stackoverflow.com/questions/36314/what-is-currying?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa).
 
