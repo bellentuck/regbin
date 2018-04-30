@@ -251,7 +251,7 @@ Significantly, the above allows you to bring in your own favorite validations li
 ### Custom messages
 Even without a custom validator, you can still customize a validation message in much the same way: make an array with two values, the first of which is the validation you want to use, specified as a string, and the second of which is your custom message:
 ```js
-rebgin({
+regbin({
   firstName: [[ 'required', 'so required' ]],
   lastName: [[ 'required', () => 'like, so required' ]],
   occupation: [[ 'required', 'still required' ]],
