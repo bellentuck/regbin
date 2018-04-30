@@ -23,7 +23,10 @@ module.exports = Object.assign(number, string, char, {
     () => `must be an actual city, comprised of a word or words`
   ],
   state: [
-    value => asyncValidate(value, urls.state),
+    value => {
+      const input = new RegExp(`.*${value}.*`, 'i');
+      return input.test(Object.values(require('./states')).join(' '));
+    },
     () => 'must be a US state'
   ],
   country: [

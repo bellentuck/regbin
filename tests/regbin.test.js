@@ -175,6 +175,18 @@ describe('The main regularized bindings / regularization bin function', () => {
     });
   });
 
+  xdescribe('Testing the new "states" validator', () => {
+    it('performs correctly', () => {
+      regbin('defaults')({
+        state: []
+      })({
+        state: 'arIzona'
+      }).catch(errorMessage => {
+        console.log('ERROR MSG: ', errorMessage)
+      })
+    });
+  });
+
   describe('Handling async validators', () => {
     it('Should handle explicitly asynchronous validators the same way it would synchronous ones', () => {
       const fields = {
