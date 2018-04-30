@@ -16,11 +16,11 @@ module.exports = Object.assign(number, string, char, {
   // Address info
   street: [
     value => /\d{1,5}\s(\b\w*\b\s){1,2}\w*/.test(value),
-    () => `must include a number and a name`
+    () => `address must include a number and a name`
   ],
   city: [
     value => string.title[0](value),
-    string.title[1]
+    `must be an actual city, comprised of a word or words`
   ],
   state: [
     value => asyncValidate(value, urls.state),
@@ -89,26 +89,26 @@ module.exports = Object.assign(number, string, char, {
   // Phone info
   phone: [
     value => /^\d{3}.{0,1}\d{3}.{0,1}\d{4}$/.test(value),
-    () => 'must be an valid 10-digit phone number'
+    () => 'must be a valid 10-digit phone number'
   ],
-  // Time
-  before: [
-    (value, lub) => v.isBefore(value, lub),  //lub = least upper bound
-    (lub) => `must occur before ${lub}`
-  ],
-  after: [
-    (value, glb) => v.isAfter(value, glb),  //glb = greatest lower bound
-    (glb) => `must occur after ${glb}`
-  ],
+  // // Time // coming soon!
+  // before: [
+  //   (value, lub) => v.isBefore(value, lub),  //lub = least upper bound
+  //   (lub) => `must occur before ${lub}`
+  // ],
+  // after: [
+  //   (value, glb) => v.isAfter(value, glb),  //glb = greatest lower bound
+  //   (glb) => `must occur after ${glb}`
+  // ],
   // Math
   '.': [
     (value, options = null) => v.isDecimal(value, options),
     () => `must be a decimal amount`
   ],
-  '%': [   // e.g.,  {'%': 2}
-    (value, dividend) => v.isDivisibleBy(value, dividend),
-    (dividend) => `must be divisible by ${dividend}`
-  ],
+  // '%': [   // e.g.,  {'%': 2}
+  //   (value, dividend) => v.isDivisibleBy(value, dividend),
+  //   (dividend) => `must be divisible by ${dividend}`
+  // ],
   // Money
   $: [
     (value, options = null) => v.isCurrency(value, options),

@@ -202,4 +202,22 @@ describe('The main regularized bindings / regularization bin function', () => {
       });
     });
   });
+
+  xdescribe('Handling multiple changes in sequence', () => {
+    it('Possibly -- persists old error messages if there are still errors, even when dealing with other fields -- or possibly not', () => {
+      const validations = regbin('defaults')({
+        firstName: ['required'],
+        username: ['required', {range: [4, 12]}],
+        email: [ ],
+      });
+      validations({ username: 'a' })
+      .catch(errorsObj => {
+        console.log('ERRORS OBJ FOR USERNAME', errorsObj);
+        return validations({ email: 'a' });
+      })
+      .catch(errorsObj => {
+        console.log('ERRORS OBJ FOR EMAIL', errorsObj);
+      })
+    })
+  })
 });
