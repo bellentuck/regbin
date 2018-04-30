@@ -24,13 +24,17 @@ module.exports = Object.assign(number, string, char, {
   ],
   state: [
     value => {
+      if (value === '') return false;
       const input = new RegExp(`.*${value}.*`, 'i');
       return input.test(Object.values(require('./states')).join(' '));
     },
     () => 'must be a US state'
   ],
   country: [
-    value => asyncValidate(value, urls.country),
+    value => {
+      if (value === '') return false;
+      return asyncValidate(value, urls.country)
+    },
     () => 'must be an actual country'
   ],
   countryCode: [
